@@ -2,24 +2,29 @@ import { MongoClient } from "mongodb";
 import { TransactionDoc, UserDoc } from "./models";
 
 async function getMongoClient(dbName: string) {
-  console.log("connection db")
+  console.log("connection db");
   const driver = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_CLUSTER_ID}/${dbName}?retryWrites=true&w=majority`;
   const client = await MongoClient.connect(driver);
   return client;
 }
 
-
 class Client {
-  async getUser(account: string){
+  async getAllTransactions(account: string) {
+    const user = await this.getUser(account);
+    const transactions = await this.getAllTransaction(user!.transactions)
+    return transactions;
+  }
+
+  async getUser(account: string) {
     const client = await getMongoClient("users");
     const db = client.db();
     const usersCollections = db.collection("users");
-    const result = await usersCollections.findOne({address:account})
+    const result = await usersCollections.findOne({ address: account });
     console.log(result);
     client.close();
-    return result
+    return result;
   }
-  
+
   async createUserIfNotExists(userDoc: UserDoc) {
     const client = await getMongoClient("users");
     const db = client.db();
@@ -40,6 +45,19 @@ class Client {
     client.close();
   }
 
+  async getAllTransaction(transactionIds: string[]){
+    const client = await getMongoClient("transactions");
+    const db = client.db();
+    const transactionsCollections = db.collection("transactions");
+    const result = await transactionsCollections.find(
+      { id: { $in: transactionIds } }
+   );
+   const transactions = await result.toArray();
+    console.log(transactions);
+    client.close();
+    return transactions;
+  }
+
   async createTransaction(transactionDoc: TransactionDoc) {
     const client = await getMongoClient("transactions");
     const db = client.db();
@@ -49,14 +67,14 @@ class Client {
     client.close();
   }
 
-  async updateUserTransactions(userAccount: string, txHash: string){
+  async updateUserTransactions(userAccount: string, txHash: string) {
     const client = await getMongoClient("users");
     const db = client.db();
     const usersCollections = db.collection("users");
     const result = await usersCollections.updateOne(
-        { address: userAccount },
-        { $push: { transactions: txHash } }
-     )
+      { address: userAccount },
+      { $push: { transactions: txHash } }
+    );
     console.log(result);
     client.close();
   }

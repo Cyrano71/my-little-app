@@ -34,9 +34,7 @@ const Header = () => {
   useEffect(() => {
     if (currentAccount) {
       ;(async () => {
-        const user = await fetchJson<UserDoc>('/api/users?currentAccount=' + currentAccount, {
-          method: 'GET'
-        });
+        const user = await fetchJson<UserDoc>('/api/users?currentAccount=' + currentAccount);
         if (user.userName !== 'Unnamed') {
           setUserName(user.userName)
         } else {
@@ -95,7 +93,7 @@ const Header = () => {
           <div className={style.buttonIconContainer}>
             <Image src={ethLogo} alt='eth logo' height={20} width={20} />
           </div>
-          <p>Sepolia Tesnet</p>
+          <p>Sepolia</p>
           <div className={style.buttonIconContainer}>
             <AiOutlineDown />
           </div>

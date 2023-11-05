@@ -7,6 +7,7 @@ import { useContext } from 'react'
 import { TransactionContext } from '../store/TransactionsContext'
 import { useSearchParams } from 'next/navigation'
 import Modal from 'react-modal';
+import TransactionLoader from './TransactionLoader'
 //import ReactModal from 'react-modal'
 //import TransactionLoader from './TransactionLoader'
 
@@ -103,6 +104,7 @@ const Main = () => {
       </div>
 
       <Modal isOpen={isOpen} style={customStyles}>
+      <TransactionLoader />
       </Modal>
     </div>
     </div>

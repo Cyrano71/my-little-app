@@ -2,7 +2,7 @@ import { NextApiHandler, NextApiResponse } from "next";
 import client from "../../libs/db/mongo";
 import { UserDoc } from "@/libs/db/models";
 
-interface UserQuery {
+interface UserGetQuery {
   currentAccount: string;
 }
 
@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
     res.status(200).json({message: "OK"});
   } else {
     //https://stackoverflow.com/questions/70551909/nextjs-api-with-typescript-restricting-nextapirequest-query-param-to-just-strin
-    const query: UserQuery = Array.isArray(req.query)
+    const query: UserGetQuery = Array.isArray(req.query)
       ? req.query[0]
       : req.query;
 
