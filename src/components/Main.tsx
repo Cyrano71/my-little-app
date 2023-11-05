@@ -11,7 +11,7 @@ import TransactionLoader from './TransactionLoader'
 //import ReactModal from 'react-modal'
 //import TransactionLoader from './TransactionLoader'
 
-Modal.setAppElement('#my-root-div')
+Modal.setAppElement('.my-root-div')
 
 const style = {
   wrapper: `w-screen flex items-center justify-center mt-14`,
@@ -62,7 +62,7 @@ const Main = () => {
   }
 
   return (
-    <div id="my-root-div">
+    <div className="my-root-div">
     <div className={style.wrapper}>
       <div className={style.content}>
         <div className={style.formHeader}>
