@@ -8,10 +8,9 @@ import { TransactionContext } from '../store/TransactionsContext'
 import { useSearchParams } from 'next/navigation'
 import Modal from 'react-modal';
 import TransactionLoader from './TransactionLoader'
+import React, { useEffect } from "react";
 //import ReactModal from 'react-modal'
 //import TransactionLoader from './TransactionLoader'
-
-Modal.setAppElement('.my-root-div')
 
 const style = {
   wrapper: `w-screen flex items-center justify-center mt-14`,
@@ -52,6 +51,10 @@ const Main = () => {
     isOpen = true;
   }
 
+  useEffect(() => {
+    Modal.setAppElement('#my-root-div')
+  }, [])
+
   const handleSubmit = async (e: any) => {
     const { addressTo, amount } = formData
     e.preventDefault()
@@ -62,7 +65,7 @@ const Main = () => {
   }
 
   return (
-    <div className="my-root-div">
+    <div id="my-root-div">
     <div className={style.wrapper}>
       <div className={style.content}>
         <div className={style.formHeader}>
