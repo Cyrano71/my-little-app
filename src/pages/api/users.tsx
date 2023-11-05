@@ -12,7 +12,7 @@ const handler: NextApiHandler = async (req, res) => {
 
     await client.createUserIfNotExists(userDoc);
 
-    res.status(200).send("OK");
+    res.status(200).json({message: "OK"});
   } else {
     //https://stackoverflow.com/questions/70551909/nextjs-api-with-typescript-restricting-nextapirequest-query-param-to-just-strin
     const query: UserQuery = Array.isArray(req.query)

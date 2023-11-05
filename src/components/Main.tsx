@@ -43,7 +43,7 @@ const customStyles = {
 }
 
 const Main = () => {
-  const { formData, handleChange, sendTransaction } =
+  const { formData, handleChange, sendTransaction, currentAccount } =
     useContext(TransactionContext)
   const searchParams = useSearchParams()
   let isOpen = false;
@@ -57,7 +57,7 @@ const Main = () => {
 
     if (!addressTo || !amount) return
 
-    sendTransaction()
+    sendTransaction(currentAccount)
   }
 
   return (

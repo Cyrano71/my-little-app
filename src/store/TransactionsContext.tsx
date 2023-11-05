@@ -6,12 +6,6 @@ import { useRouter } from "next/navigation";
 import { AppContextType } from "./contextTypes";
 import fetchJson from "@/utils/fetchJson";
 
-let eth: any;
-
-if (typeof window !== "undefined") {
-  eth = (window as any).ethereum;
-}
-
 const getEthereumContract = () => {
   const provider = new ethers.providers.Web3Provider((window as any).ethereum);
   const signer = provider.getSigner();
@@ -27,14 +21,14 @@ const getEthereumContract = () => {
 //https://blog.logrocket.com/how-to-use-react-context-typescript/
 export const TransactionContext = React.createContext<AppContextType>({
   handleChange: (e: React.FormEvent<HTMLInputElement>, name: string) => {},
-  connectWallet: (metamask?: any) => {},
+  connectWallet: () => {},
   currentAccount: "",
   setFormData: (addressTo: string, amount: string) => {},
   formData: {
     addressTo: "",
     amount: "",
   },
-  sendTransaction: (metamask?: any, connectedAccount?: string) => {},
+  sendTransaction: (connectedAccount: string) => {},
   isLoading: false,
 });
 
@@ -63,7 +57,7 @@ const TransactionProvider: React.FC<Props> = ({ children }): JSX.Element => {
   }, [isLoading]);
 
   /**
-   * Create user profile in Sanity
+   * Create user profile in Mongo db
    */
   useEffect(() => {
     if (!currentAccount) return;
@@ -87,10 +81,10 @@ const TransactionProvider: React.FC<Props> = ({ children }): JSX.Element => {
     })();
   }, [currentAccount]);
 
-  const handleChange = (e: React.FormEvent<HTMLInputElement>, name: string) => {
+  const handleChange = (e: React.FormEvent, name: string) => {
     setFormData((prevState) => ({
       ...prevState,
-      [name]: e.currentTarget.value,
+      [name]: (e.target as HTMLTextAreaElement).value,
     }));
   };
 
@@ -100,14 +94,13 @@ const TransactionProvider: React.FC<Props> = ({ children }): JSX.Element => {
 
   /**
    * Checks if MetaMask is installed and an account is connected
-   * @param {*} metamask Injected MetaMask code from the browser
-   * @returns
    */
-  const checkIfWalletIsConnected = async (metamask = eth) => {
+  const checkIfWalletIsConnected = async () => {
     try {
+      const metamask = (window as any).ethereum
       if (!metamask) return alert("Please install metamask ");
 
-      const accounts = await (window as any).ethereum.request({
+      const accounts = await metamask.request({
         method: "eth_accounts",
       });
 
@@ -122,10 +115,10 @@ const TransactionProvider: React.FC<Props> = ({ children }): JSX.Element => {
 
   /**
    * Prompts user to connect their MetaMask wallet
-   * @param {*} metamask Injected MetaMask code from the browser
    */
-  const connectWallet = async (metamask = eth) => {
+  const connectWallet = async () => {
     try {
+      const metamask = (window as any).ethereum
       if (!metamask) return alert("Please install metamask ");
 
       console.log("connectWallet");
@@ -153,7 +146,7 @@ const TransactionProvider: React.FC<Props> = ({ children }): JSX.Element => {
   const saveTransaction = async (
     txHash: string,
     amount: string,
-    fromAddress: string = currentAccount,
+    fromAddress: string,
     toAddress: string
   ) => {
     const txDoc = {
@@ -168,7 +161,7 @@ const TransactionProvider: React.FC<Props> = ({ children }): JSX.Element => {
 
     console.log(txDoc);
 
-    const respone = await fetchJson("/api/transactions", {
+    await fetchJson("/api/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -185,15 +178,14 @@ const TransactionProvider: React.FC<Props> = ({ children }): JSX.Element => {
 
   /**
    * Executes a transaction
-   * @param {*} metamask Injected MetaMask code from the browser
    * @param {string} currentAccount Current user's address
    */
   const sendTransaction = async (
-    metamask = eth,
-    connectedAccount = currentAccount
+    connectedAccount: string
   ) => {
     console.log("send transaction");
     try {
+      const metamask = (window as any).ethereum
       if (!metamask) return alert("Please install metamask ");
       const { addressTo, amount } = formData;
       const transactionContract = getEthereumContract();

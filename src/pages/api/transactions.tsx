@@ -10,7 +10,7 @@ const handler: NextApiHandler = async (req, res) => {
 
   await client.updateUserTransactions(currentAccount, txHash);
 
-  res.status(200).send("OK");
+  res.status(200).json({message: "OK"});
 };
 
 export default handler;
