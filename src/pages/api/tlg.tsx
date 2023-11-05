@@ -1,6 +1,6 @@
-import { getBlockNumber } from "@/libs/alchemy";
-import { CurrentConfig } from "@/libs/config";
-import { quote } from "@/libs/quote";
+import { getBlockNumber } from "@/libs/uniswap/alchemy";
+import { CurrentConfig } from "@/libs/uniswap/config";
+import { quote } from "@/libs/uniswap/quote";
 import { NextApiHandler } from "next";
 import ReactDomServer from "react-dom/server";
 

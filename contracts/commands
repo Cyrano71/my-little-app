@@ -1,0 +1,5 @@
+https://trufflesuite.com/docs/truffle/how-to/contracts/interact-with-your-contracts/
+
+truffle console --network sepolia
+let instance = await MyContract.deployed()
+instance.getGreeting()

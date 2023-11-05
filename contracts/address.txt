@@ -1,0 +1,29 @@
+Deploying 'MyContract'
+   ----------------------
+   > transaction hash:    0x70987268d5f693d82d9b9bdeb71fa324e1fc393137d5510ae361aac021c4c799
+   > Blocks: 1            Seconds: 12
+   > contract address:    0x373070dF73eC02d808eEa331400CaF05e0Cb81b7
+   > block number:        4628218
+   > block timestamp:     1699097496
+   > account:             0x6CFb9257ef8E80edD6a268c51D28d2D5D597688a
+   > balance:             0.499480954997508584
+   > gas used:            207618 (0x32b02)
+   > gas price:           2.500000012 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000519045002491416 ETH
+
+https://sepolia.etherscan.io/address/0x373070dF73eC02d808eEa331400CaF05e0Cb81b7
+
+ Deploying 'Transactions'
+   ------------------------
+   > transaction hash:    0x82779d8cbb4c954066971c7a40f71d9dcb5a27ea4aac1e2e4c67dfd1bdd5357a
+   > Blocks: 1            Seconds: 8
+   > contract address:    0x608fe72c54369D69CFB503A8561a3Ae71E67BDf6
+   > block number:        4628624
+   > block timestamp:     1699102848
+   > account:             0x6CFb9257ef8E80edD6a268c51D28d2D5D597688a
+   > balance:             0.498682267493994359
+   > gas used:            319475 (0x4dff3)
+   > gas price:           2.500000011 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000798687503514225 ETH

@@ -6,9 +6,9 @@ import IUniswapV3PoolABI from '@uniswap/v3-core/artifacts/contracts/interfaces/I
 import {
   POOL_FACTORY_CONTRACT_ADDRESS,
   QUOTER_CONTRACT_ADDRESS,
-} from '../libs/constants'
-import { getProvider } from '../libs/providers'
-import { toReadableAmount, fromReadableAmount } from '../libs/conversion'
+} from "./constants"
+import { getProvider } from './providers'
+import { toReadableAmount, fromReadableAmount } from './conversion'
 
 export async function quote(): Promise<string> {
   const quoterContract = new ethers.Contract(
