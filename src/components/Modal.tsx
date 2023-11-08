@@ -30,7 +30,7 @@ export default function Modal() {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                    This app is connected to the smart contract 0x373070dF73eC02d808eEa331400CaF05e0Cb81b7
+                    This app is connected to the smart contract <span className="text-indigo-500">0x373070dF73eC02d808eEa331400CaF05e0Cb81b7 </span>
                     on the sepolia blockchain. This smart contract allows you to swap your token on this blockchain.<br/><br/> 
                     
                     To start using the app you need to connect your metamask wallet to the application.
@@ -38,7 +38,7 @@ export default function Modal() {
                     And finally you need a destination address that you can create on your metamask<br/><br/>
 
                     This App was mainly created for training purpose. 
-                    You can find the code on my github https://github.com/Cyrano71/my-little-app <br/>
+                    You can find the code on my repo <span className="text-indigo-500">https://github.com/Cyrano71/my-little-app</span> <br/>
                   </p>
                 </div>
                 {/*footer*/}
