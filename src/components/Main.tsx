@@ -52,6 +52,7 @@ const Main = () => {
   }
 
   useEffect(() => {
+    //https://github.com/reactjs/react-modal/issues/133
     Modal.setAppElement('#my-root-div')
   }, [])
 
