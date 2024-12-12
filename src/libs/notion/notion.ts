@@ -62,7 +62,17 @@ async function getNotionDatabaseId(notionToken: string) {
         },
         body: '{"filter":{"value":"database","property":"object"}}'
     });
-    const json = await response.json()
-    console.log("response", json);
-    return json.results[0]["id"];
+    const json: NotionDatabaseListResponse = await response.json()
+    console.log("response database", json);
+    if (json.results.length === 0) {
+        throw new Error("No database found in Notion");
+    }
+    const database = json.results[0]
+    const properties = ["ClientMessageId", "User", "Date", "Message"];
+    for (const prop of properties) {
+        if (!database.properties[prop]) {
+            throw new Error(`Database missing property ${prop}`);
+        }
+    }
+    return database.id;
 }
