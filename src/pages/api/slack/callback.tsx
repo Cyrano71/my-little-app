@@ -20,6 +20,7 @@ const handler: NextApiHandler = async (req, res) => {
   
       if (tokenResponse.data.ok) {
         // Save the tokens in session or a secure place
+        console.log("Token response:", tokenResponse.data);
         const accessToken = tokenResponse.data.authed_user.access_token;
         console.log("Access token:", accessToken);
         //req.session.slack_access_token = accessToken;
