@@ -1,7 +1,7 @@
 import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
-    const scopes = "channels:read,bot,channels:history";
+    const scopes = "channels:read,channels:history";
     res.redirect(
       `https://slack.com/oauth/v2/authorize?client_id=${
         process.env.SLACK_CLIENT_ID
