@@ -1,19 +1,24 @@
 import { saveToNotion } from "@/libs/notion/notion";
-import { getSlackMessages } from "@/libs/slack/slack";
+import { fetchSlackChannels, getSlackMessages } from "@/libs/slack/slack";
 import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
-    const {depth} = req.query;
     console.log("Cron job started");
     const SLACK_TOKEN = process.env.SLACK_ACCESS_TOKEN;
-    const CHANNEL_ID = 'C01DBQFBSQ0';
-    const SPECIFIC_EMOJI = 'bookmark';
-    const messages = await getSlackMessages(Number(depth) ?? 1, SLACK_TOKEN!, CHANNEL_ID, SPECIFIC_EMOJI);
-    
+    const channels = await fetchSlackChannels(SLACK_TOKEN!);
+  
+    const {depth} = req.query;
+
     const NOTION_TOKEN = process.env.NOTION_ACCESS_TOKEN;
-    if (messages && messages.length != 0) {
-      for (const message of messages) {
-          await saveToNotion(message, NOTION_TOKEN!);
+    const SPECIFIC_EMOJI = 'bookmark';
+    for (const channel of channels) {
+      console.log(`Fetching messages for channel ${channel.name}`);
+      const messages = await getSlackMessages(Number(depth) ?? 1, SLACK_TOKEN!, channel.id, SPECIFIC_EMOJI);
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      if (messages && messages.length != 0) {
+        for (const message of messages) {
+            await saveToNotion(message, NOTION_TOKEN!);
+        }
       }
     }
     res.status(200).send("OK");

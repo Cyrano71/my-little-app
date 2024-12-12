@@ -1,6 +1,41 @@
 import axios from "axios";
 import { slackTimestampToDate } from "./utils";
-  
+
+export async function fetchSlackChannels(token: string) {
+  try {
+    // Configuration de la requête
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    };
+
+    // Récupérer la liste de tous les channels
+    const channelsResponse = await axios.get('https://slack.com/api/conversations.list', {
+      ...config,
+      params: {
+        types: 'public_channel,private_channel', // Récupérer les canaux publics et privés
+        limit: 1000 // Augmenter la limite si nécessaire
+      }
+    });
+
+    // Vérifier la réponse de l'API
+    if (!channelsResponse.data.ok) {
+      throw new Error(`Erreur Slack : ${channelsResponse.data.error}`);
+    }
+
+    const publicChannels = channelsResponse.data.channels.filter((channel: SlackChannel) => !channel.is_private && channel.is_member);
+
+    console.log('Nombre total de channels :', publicChannels.length);
+
+    return publicChannels;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des channels :', error);
+    throw error;
+  }
+}
+
 async function fetchMessagesWithReactions(channelId: string, token: string, depth: number) {
   try {
     // Configuration de la requête
